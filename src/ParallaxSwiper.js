@@ -62,6 +62,24 @@ class ParallaxSwiper extends Component {
     });
   }
 
+  scrollBy = (index, animated = true) => {
+        const {vertical, dividerWidth, animatedValue} = this.props;
+        const pageWidth = this.state.width + dividerWidth;
+        const pageHeight = this.state.height;
+        const scrollOffset = vertical ? index * pageHeight : index * pageWidth;
+
+        if (!this.animatedScrollViewHasScrolled) {
+            animatedValue.setValue(scrollOffset);
+            this.animatedScrollViewHasScrolled = true;
+        }
+
+        this.animatedScrollView._component.scrollTo({
+            x: vertical ? 0 : scrollOffset,
+            y: vertical ? scrollOffset : 0,
+            animated,
+        });
+    }
+
   animatedScrollViewHasScrolled = false;
   pageIndex = 0;
 
